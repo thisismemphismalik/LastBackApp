@@ -1,0 +1,14 @@
+#:import Window kivy.core.window.Window
+#:import FirstTab app_screen.first_tab.first_tab.FirstTab
+#:import SecondTab app_screen.second_tab.second_tab.SecondTab
+
+<AppScreen>
+    name: "AppScreen"
+
+    MDFloatLayout:
+        size_hint: None, None
+        size: Window.size
+
+        FirstTab:
+
+#        SecondTab:
