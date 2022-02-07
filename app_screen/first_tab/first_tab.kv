@@ -11,11 +11,10 @@
         MDBoxLayout:
             orientation: "vertical"
             adaptive_height: True
-#            spacing: 35
 
             MDBoxLayout:
                 adaptive_height: True
-                padding: [25, 25, 0, 0]
+                padding: [25, 25, 20, 0]
                 md_bg_color: 3/255,7/255,30/255,1
 
                 MDLabel:
@@ -26,6 +25,16 @@
                     adaptive_size: True
                     theme_text_color: "Custom"
                     text_color: 1,1,1,1
+
+                Widget:
+
+                MDIconButton:
+                    icon: "refresh"
+                    theme_text_color: "Custom"
+                    text_color: 1,1,1,1
+                    pos_hint: {"center_y": .8}
+                    on_release:
+                        self.opacity = 0
 
             MDBoxLayout:
                 orientation: "vertical"
@@ -45,8 +54,9 @@
                             adaptive_size: True
                             font_size: 35
                             bold: True
+                            opacity: .7
                             theme_text_color: "Custom"
-                            text_color: 3/255,7/255,30/255,1
+                            text_color: get("#D00000")
 
                     MDBoxLayout:
                         id: indice
@@ -136,7 +146,8 @@
                             font_size: 35
                             bold: True
                             theme_text_color: "Custom"
-                            text_color: 3/255,7/255,30/255,1
+                            text_color: get("#D00000")
+                            opacity: .7
 
                     MDBoxLayout:
                         id: indice
@@ -226,7 +237,8 @@
                             font_size: 35
                             bold: True
                             theme_text_color: "Custom"
-                            text_color: 3/255,7/255,30/255,1
+                            text_color: get("#D00000")
+                            opacity: .7
 
                     MDBoxLayout:
                         id: indice
@@ -332,7 +344,8 @@
                             font_size: 35
                             bold: True
                             theme_text_color: "Custom"
-                            text_color: 3/255,7/255,30/255,1
+                            text_color: get("#D00000")
+                            opacity: .7
 
                     MDBoxLayout:
                         id: indice

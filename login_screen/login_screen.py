@@ -16,3 +16,4 @@ class LoginScreen(MDScreen):
 
     def send(self, email, password):
         print(email, password)
+        self.manager.current = "AppScreen"
