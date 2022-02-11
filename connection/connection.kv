@@ -1,0 +1,54 @@
+#:import Window kivy.core.window.Window
+
+<Connection>
+    name: "Connection"
+
+    MDFloatLayout:
+        size_hint: None, None
+        size: Window.size
+
+        MDLabel:
+            text: "Back Office."
+            adaptive_size: True
+            pos_hint: {"center_x": .5, "center_y": .88}
+            font_size: 35
+            bold: True
+
+        MDCard:
+            size_hint: .85, .5
+            orientation: "vertical"
+            adaptive_height: True
+            radius: [25]
+            elevation: 1
+            pos_hint: {"center_x": .5, "center_y": .5}
+
+            MDFloatLayout:
+
+                MDLabel:
+                    adaptive_height: True
+                    font_size: 27
+                    text: "email."
+                    pos_hint: {"x": .1, "center_y": .75}
+
+                MDTextField:
+                    id: email
+                    adaptive_height: True
+                    font_size: 20
+                    pos_hint: {"x": .1, "center_y": .65}
+                    size_hint_x: .9
+                    on_text_validate: password.focused = True
+
+                MDLabel:
+                    adaptive_height: True
+                    font_size: 27
+                    text: "mot de passe."
+                    pos_hint: {"x": .1, "center_y": .45}
+
+                MDTextField:
+                    id: password
+                    adaptive_height: True
+                    font_size: 20
+                    pos_hint: {"x": .1, "center_y": .35}
+                    size_hint_x: .9
+                    password: True
+                    on_text_validate: root.send(email.text, password.text)

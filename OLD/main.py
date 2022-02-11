@@ -10,12 +10,12 @@ class Manager(ScreenManager):
     pass
 
 
-class BackApp(MDApp):
+class Genius(MDApp):
     def build(self):
-        Window.size = (350, 600)
         manager = Manager()
+        Window.size = (350, 600)
         return manager
 
 
 if __name__ == "__main__":
-    BackApp().run()
+    Genius().run()
