@@ -1,43 +1,21 @@
+#:import Window kivy.core.window.Window
+
 #:import color static.color
 
+#:import Base app.labs.base.base.Base
+#:import Create app.labs.create.create.Create
+
 <Labs>
-    name: "Labs"
+    title: "Labs"
+    icon: "Labs"
 
     MDFloatLayout:
         size_hint: None, None
         size: Window.size
 
-        MDCard:
-            md_bg_color: 0,0,0,0
-            size_hint: None, None
-            elevation: 0
-            size: (250, 75)
-            pos_hint: {"center_x": .5, "center_y": .5}
+        ScreenManager:
+            id: nonono
 
-            MDFloatLayout:
-                MDLabel:
-                    pos_hint: {"center_x": .51, "center_y": .49}
-                    text: "asso"
-                    font_size: 90
-                    adaptive_size: True
-                    theme_text_color: "Custom"
-                    text_color: color("yellow")
-                    opacity: .7
-
-                MDLabel:
-                    pos_hint: {"center_x": .49, "center_y": .51}
-                    text: "asso"
-                    font_size: 90
-                    adaptive_size: True
-                    theme_text_color: "Custom"
-                    text_color: color("red")
-                    opacity: .7
-
-
-                MDTextButton:
-                    pos_hint: {"center_x": .5, "center_y": .5}
-                    text: "asso"
-                    font_size: 90
-                    adaptive_size: True
-                    theme_text_color: "Custom"
-                    text_color: color("black")
+            Base:
+            Create:
+#            Update:

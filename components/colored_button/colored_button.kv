@@ -1,0 +1,37 @@
+<ColoredButton>
+    md_bg_color: 0,0,0,0
+    size_hint: None, None
+
+    elevation: 1
+
+    text: ""
+    sizee: 0
+
+    MDFloatLayout:
+        MDLabel:
+            pos_hint: {"center_x": .51, "center_y": .49}
+            text: root.text
+            font_size: root.sizee
+            adaptive_size: True
+            theme_text_color: "Custom"
+            text_color: color("yellow")
+            opacity: .7
+
+        MDLabel:
+            pos_hint: {"center_x": .49, "center_y": .51}
+            text: root.text
+            font_size: root.sizee
+            adaptive_size: True
+            theme_text_color: "Custom"
+            text_color: color("red")
+            opacity: .7
+
+
+        MDTextButton:
+            pos_hint: {"center_x": .5, "center_y": .5}
+            text: root.text
+            font_size: root.sizee
+            adaptive_size: True
+            theme_text_color: "Custom"
+            text_color: color("black")
+            on_release: root.parent.parent.manager.current = self.text.capitalize()

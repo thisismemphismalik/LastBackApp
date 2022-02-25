@@ -1,8 +1,8 @@
 from kivy.lang import Builder
-from kivymd.uix.screen import MDScreen
+from kivymd.uix.tab import MDTabsBase
 
 Builder.load_file("./app/labs/labs.kv")
 
 
-class Labs(MDScreen):
+class Labs(MDTabsBase):
     pass
