@@ -5,3 +5,88 @@
         size_hint: None, None
         size: Window.size
         pos_hint: {"center_x": .5, "center_y": .5}
+
+        MDBoxLayout:
+            id: one
+            orientation: "vertical"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            md_bg_color: 0,0,0,.05
+
+            MDIconButton:
+                icon: "close-circle-outline"
+                pos_hint: {"right": .9}
+                user_font_size: 35
+
+            MDBoxLayout:
+                id: two
+                size_hint_x: .8
+                pos_hint: {"center_x": .5}
+                radius: [25, 25, 0, 0]
+                padding: [0, 10]
+                spacing: 15
+                md_bg_color: 1,1,1,1
+                orientation: "vertical"
+
+                MDLabel:
+                    text: "Create an event"
+                    adaptive_height: True
+                    halign: "center"
+                    font_size: 20
+
+                FitImage:
+                    source: "./hie.jpg"
+                    radius: [25, 25, 0, 0]
+
+                MDTextField:
+                    text: "EVENT NAME"
+                    halign: "center"
+
+                MDTextField:
+                    text: "ABOUT EVENT"
+                    multiline: True
+                    halign: "center"
+
+                MDTextField:
+                    text: "EVENT LOCATION"
+                    multiline: True
+                    halign: "center"
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    md_bg_color: 0,1,1,.3
+
+                    MDTextButton:
+                        id: date_value
+                        text: "choose a date"
+                        on_release: root.date()
+
+                    MDIconButton:
+                        icon: "calendar"
+
+                    MDTextButton:
+                        id: date_value
+                        text: "choose an hour"
+                        on_release: root.time()
+
+                    MDIconButton:
+                        icon: "clock-outline"
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    md_bg_color: 1,0,1,.3
+
+                    MDTextButton:
+                        id: caller
+                        text: "choose color"
+                        on_release: root.menu.open()
+
+                    MDTextButton:
+                        id: caller
+                        text: "choose categroy"
+                        on_release: root.menu.open()
+
+                MDTextButton:
+                    text: "VALIDATE"
+                    bold: True
+                    on_release: root.next()
+#                Widget:

@@ -11,3 +11,8 @@ def color(name):
     }
 
     return base[name]
+
+
+CATEGORY = ["cinéma", "festival", "theatre", "musée", "sport", "concours", "mode"]
+
+COLOR = ["black", "blue", "green", "red", "sky-blue", "violet", "yellow", "white"]
