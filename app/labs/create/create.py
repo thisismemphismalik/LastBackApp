@@ -1,18 +1,22 @@
 import os.path
 
+import kivymd
 from kivy.clock import Clock
 from kivy.lang import Builder
+from kivymd.app import MDApp
 from kivymd.toast import toast
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.card import MDSeparator
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.picker import MDDatePicker, MDTimePicker
 from kivymd.uix.screen import MDScreen
 from plyer import filechooser
 
+from components.ticket_banner.ticket_banner import TicketBanner
 from lab import create_event
-from static import COLOR, correct_date, CATEGORY, convert, hasher
+from static import COLOR, correct_date, CATEGORY, convert, hasher, make_event
 
 Builder.load_file("app/labs/create/create.kv")
 
@@ -136,6 +140,8 @@ class One(MDBoxLayout):
         frame.remove_widget(one)
         # print(one)
 
+        make_event(data)
+
         frame.add_widget(two)
         frame.children[1].icon = "backburger"
 
@@ -145,11 +151,6 @@ class Two(MDBoxLayout):
         super().__init__(**kwargs)
         self.dialog = MDDialog(
             title="Add a ticket",
-            buttons=[
-                MDFlatButton(
-                    text="OK",
-                )
-            ],
             type="custom",
             content_cls=Content()
         )
@@ -159,9 +160,15 @@ class Two(MDBoxLayout):
 
         self.ids.ticket_id.text = self.ticket_id
 
-    def add_ticket(self):
+        self.ids.table.add_widget(MDSeparator())
+        self.ids.table.add_widget(TicketBanner("Qty", "Name", "Price", "blank"))
+        self.ids.table.add_widget(MDSeparator())
 
+    def open(self):
         self.dialog.open()
+
+    def validate(self):
+        print(self.ids.table.children)
 
 
 class Content(MDBoxLayout):
@@ -172,3 +179,23 @@ class Content(MDBoxLayout):
 
         elif field.text == "" and not field.focused:
             field.text = text
+
+    def add_ticket(self, qty, name, price, advantage):
+        print(qty, name, price, advantage)
+
+        ticket = dict()
+
+        ticket["quantity"] = int(qty)
+        ticket["name"] = name
+        ticket["price"] = price
+        ticket["advantage"] = advantage
+
+        print(ticket)
+
+        app = MDApp.get_running_app()
+        frame = app.root.ids.main.ids.second_manager.children[1].children[0].children[0].children[0].children[0].\
+                children[0].children[0].children[0].children[0].children[0].children[2]
+
+        frame.add_widget(TicketBanner(qty, name, price))
+
+        self.parent.parent.parent.dismiss()

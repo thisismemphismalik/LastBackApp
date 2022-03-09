@@ -1,3 +1,4 @@
+import json
 import os
 from hashlib import sha256
 
@@ -46,6 +47,11 @@ def convert(old_path, new_path):
     img = ImageOps.fit(img, size, Image.ANTIALIAS)
 
     img.save(new_path, "JPEG", quality=75)
+
+
+def make_event(data):
+    with open("event.json", "w+") as file:
+        json.dump(data, file, indent=4)
 
 
 CATEGORY = ["cinéma", "festival", "theatre", "musée", "sport", "concours", "mode"]

@@ -1,3 +1,5 @@
+#:import TicketBanner components.ticket_banner.ticket_banner.TicketBanner
+
 <Create>
     name: "Create"
 
@@ -171,14 +173,15 @@
         pos_hint: {"center_x": .5}
         theme_text_color: "Custom"
         text_color: 0,0,1,.5
-        on_release: root.add_ticket()
+        on_release: root.open()
 
     MDBoxLayout:
+        id: table
         orientation: "vertical"
 
-        MDTextButton:
-            text: "VALIDATE"
-
+    MDTextButton:
+        text: "VALIDATE"
+        on_release: root.validate()
 
     Widget:
 
@@ -188,26 +191,42 @@
     padding: [0, -20, 0, 0]
     spacing: -10
     size_hint_y: None
-    height: 150
+    height: 200
 
     MDTextField:
+        id: quantity
         text: "Quantity"
         halign: "center"
         on_focus: root.magnify(self, "Quantity")
 
     MDTextField:
+        id: name
         text: "Name"
         halign: "center"
         on_focus: root.magnify(self, "Name")
 
     MDTextField:
+        id: price
         text: "Price"
         halign: "center"
         on_focus: root.magnify(self, "Price")
 
     MDTextField:
+        id: advantage
         text: "Advantage"
         halign: "center"
         on_focus: root.magnify(self, "Advantage")
+
+    MDFloatLayout:
+        size_hint_y: None
+        height: 50
+#        md_bg_color: 1,0,0,.3
+
+        MDFlatButton:
+            text: "VALIDATE"
+            bold: True
+            font_size: 20
+            pos_hint: {"center_x": .75, "center_y": .5}
+            on_release: root.add_ticket(quantity.text,name.text,price.text,advantage.text)
 
     Widget:

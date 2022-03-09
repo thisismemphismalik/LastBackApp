@@ -1,14 +1,26 @@
 <TicketBanner>
+    elevation: 0
+    size_hint_y: None
+    height: 40
+    padding: [10, 0]
+
     MDBoxLayout:
-        size_hint_y: None
-        md_bg_color: 1,0,0,.3
-        height: 40
 
         MDLabel:
-            text: "23"
+            size_hint_x: None
+            width: 45
+            text: root.quantity
+            halign: "center"
 
         MDLabel:
-            text: "V.I.P."
+            text: root.name
+#            md_bg_color: 1,0,0,.3
 
         MDLabel:
-            text: "7 500 F"
+            text: root.price
+
+        MDIconButton:
+            icon: root.icon
+            theme_text_color: "Custom"
+            text_color: 1,0,0,.7
+            pos_hint: {"center_y": .5}
