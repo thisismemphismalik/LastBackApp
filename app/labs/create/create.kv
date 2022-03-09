@@ -7,86 +7,207 @@
         pos_hint: {"center_x": .5, "center_y": .5}
 
         MDBoxLayout:
-            id: one
+            id: base
             orientation: "vertical"
             pos_hint: {"center_x": .5, "center_y": .5}
             md_bg_color: 0,0,0,.05
 
             MDIconButton:
+                level: 1
                 icon: "close-circle-outline"
                 pos_hint: {"right": .9}
                 user_font_size: 35
 
-            MDBoxLayout:
-                id: two
-                size_hint_x: .8
-                pos_hint: {"center_x": .5}
+<One>
+    id: one
+    size_hint_x: .8
+    pos_hint: {"center_x": .5}
+    radius: [25, 25, 0, 0]
+    padding: [0, 10]
+    spacing: 10
+    md_bg_color: 1,1,1,1
+    orientation: "vertical"
+
+    MDLabel:
+        text: "Create an event"
+        adaptive_height: True
+        halign: "center"
+        font_size: 20
+
+    MDBoxLayout:
+        radius: [25, 25, 0, 0]
+
+        MDFloatLayout:
+            size_hint: 1, 1
+
+            FitImage:
+                text: self.source
+                id: image
+                source: "./modrian.png"
                 radius: [25, 25, 0, 0]
-                padding: [0, 10]
-                spacing: 15
-                md_bg_color: 1,1,1,1
-                orientation: "vertical"
+                pos_hint: {"center_x": .5, "center_y": .5}
 
-                MDLabel:
-                    text: "Create an event"
-                    adaptive_height: True
-                    halign: "center"
-                    font_size: 20
+            MDIconButton:
+                on_release: root.choose()
+                icon: "pencil"
+                pos_hint: {"right": .95, "top": .25}
+                md_bg_color: 1,1,1,.5
 
-                FitImage:
-                    source: "./hie.jpg"
-                    radius: [25, 25, 0, 0]
+    MDBoxLayout:
+        orientation: "vertical"
+        adaptive_height: True
 
-                MDTextField:
-                    text: "EVENT NAME"
-                    halign: "center"
+        MDTextField:
+            id: name
+            text: "EVENT NAME"
+            halign: "center"
+            on_focus: root.magnify(self, "EVENT NAME")
+            adaptive_height: True
 
-                MDTextField:
-                    text: "ABOUT EVENT"
-                    multiline: True
-                    halign: "center"
+        MDTextField:
+            id: about
+            text: "ABOUT EVENT"
+            multiline: True
+            halign: "center"
+            on_focus: root.magnify(self, "ABOUT EVENT")
+            adaptive_height: True
 
-                MDTextField:
-                    text: "EVENT LOCATION"
-                    multiline: True
-                    halign: "center"
+        MDTextField:
+            id: location
+            text: "EVENT LOCATION"
+            halign: "center"
+            on_focus: root.magnify(self, "EVENT LOCATION")
+            adaptive_height: True
 
-                MDBoxLayout:
-                    adaptive_height: True
-                    md_bg_color: 0,1,1,.3
+    MDBoxLayout:
+        adaptive_size: True
+        padding: [0, -25, 0, 0]
+        pos_hint: {"center_x": .5}
 
-                    MDTextButton:
-                        id: date_value
-                        text: "choose a date"
-                        on_release: root.date()
+        MDLabel:
+            size_hint_x: None
+            width: 90
+            halign: "center"
+            id: date
+            pos_hint: {"center_y": .5}
+            adaptive_height: True
+            text: "12/12/2022"
 
-                    MDIconButton:
-                        icon: "calendar"
+        MDIconButton:
+            icon: "calendar"
+            on_release: root.date()
 
-                    MDTextButton:
-                        id: date_value
-                        text: "choose an hour"
-                        on_release: root.time()
+        MDLabel:
+            size_hint_x: None
+            width: 50
+            halign: "center"
+            id: time
+            pos_hint: {"center_y": .5}
+            adaptive_height: True
+            text: "12:12"
 
-                    MDIconButton:
-                        icon: "clock-outline"
+        MDIconButton:
+            icon: "clock-outline"
+            on_release: root.time()
 
-                MDBoxLayout:
-                    adaptive_height: True
-                    md_bg_color: 1,0,1,.3
+    MDBoxLayout:
+        padding: [0, -5, 0, 0]
+        adaptive_width: True
+        size_hint_y: None
+        height: 10
+        spacing: 25
+        pos_hint: {"center_x": .5}
 
-                    MDTextButton:
-                        id: caller
-                        text: "choose color"
-                        on_release: root.menu.open()
+        MDTextButton:
+            size_hint_x: None
+            width: len(self.text)*8
+            id: color
+            text: "Color >"
+            on_release: root.color()
+            pos_hint: {"center_y": .5}
 
-                    MDTextButton:
-                        id: caller
-                        text: "choose categroy"
-                        on_release: root.menu.open()
+        MDTextButton:
+            size_hint_x: None
+            width: len(self.text)*8
+            id: category
+            text: "Category >"
+            on_release: root.category()
+            pos_hint: {"center_y": .5}
 
-                MDTextButton:
-                    text: "VALIDATE"
-                    bold: True
-                    on_release: root.next()
-#                Widget:
+    MDBoxLayout:
+        adaptive_size: True
+        padding: [10]
+        md_bg_color: 0,0,0,.1
+        pos_hint: {"center_x": .5}
+
+        MDTextButton:
+            padding:
+            text: "VALIDATE"
+            bold: True
+            halign: "center"
+            on_release: root.validate(name, image, color, category, about, location, date, time)
+
+<Two>
+    id: two
+    size_hint_x: .8
+    pos_hint: {"center_x": .5}
+    radius: [25, 25, 0, 0]
+    padding: [0, 10]
+    spacing: 15
+    md_bg_color: 1,1,1,1
+    orientation: "vertical"
+
+    MDLabel:
+        id: ticket_id
+        text: "id"
+        adaptive_height: True
+        font_size: 25
+        halign: "center"
+        opacity: .7
+
+    MDIconButton:
+        icon: "plus-circle-outline"
+        user_font_size: 35
+        pos_hint: {"center_x": .5}
+        theme_text_color: "Custom"
+        text_color: 0,0,1,.5
+        on_release: root.add_ticket()
+
+    MDBoxLayout:
+        orientation: "vertical"
+
+        MDTextButton:
+            text: "VALIDATE"
+
+
+    Widget:
+
+<Content>
+    orientation: "vertical"
+#    md_bg_color: 1,0,1,.3
+    padding: [0, -20, 0, 0]
+    spacing: -10
+    size_hint_y: None
+    height: 150
+
+    MDTextField:
+        text: "Quantity"
+        halign: "center"
+        on_focus: root.magnify(self, "Quantity")
+
+    MDTextField:
+        text: "Name"
+        halign: "center"
+        on_focus: root.magnify(self, "Name")
+
+    MDTextField:
+        text: "Price"
+        halign: "center"
+        on_focus: root.magnify(self, "Price")
+
+    MDTextField:
+        text: "Advantage"
+        halign: "center"
+        on_focus: root.magnify(self, "Advantage")
+
+    Widget:

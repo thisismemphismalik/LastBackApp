@@ -1,12 +1,13 @@
-def create_event(name, image, color, category, about, location, datetime):
+def create_event(infos: list):
     data = {
-        "name": name,
-        "image": image,
-        "color": color,
-        "category": category,
-        "about": about,
-        "location": location,
-        "datetime": datetime
+        "name": infos[0],
+        "image": infos[1],
+        "color": infos[2],
+        "category": infos[3],
+        "about": infos[4],
+        "location": infos[5],
+        "date": infos[6],
+        "time": infos[7]
     }
 
     return data
