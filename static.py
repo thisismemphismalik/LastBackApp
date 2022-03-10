@@ -50,8 +50,14 @@ def convert(old_path, new_path):
 
 
 def make_event(data):
-    with open("event.json", "w+") as file:
+    with open("./temp/event.json", "w+") as file:
         json.dump(data, file, indent=4)
+
+
+def read_event():
+    with open("./temp/event.json", "r+") as file:
+        data = json.load(file)
+        return data
 
 
 def magnify(field, text):
@@ -60,6 +66,27 @@ def magnify(field, text):
 
     elif field.text == "" and not field.focused:
         field.text = text
+
+
+def add_event_key(key):
+    with open("./temp/event.json", "r+") as file:
+        new_data = dict()
+        data = json.load(file)
+
+        new_data[key] = data
+
+        make_event(new_data)
+
+
+def add_tickets(tickets):
+    with open("./temp/event.json", "r+") as file:
+        data = json.load(file)
+
+        a = [i for i in data.keys()][0]
+        a = data[a]
+        a["tickets"] = tickets
+
+        make_event(data)
 
 
 CATEGORY = ["cinéma", "festival", "theatre", "musée", "sport", "concours", "mode"]

@@ -1,20 +1,22 @@
 #:import ColoredButton components.colored_button.colored_button.ColoredButton
-#:import Window kivy.core.window.Window
 
 <Base>
-    name: "base"
+    name: "Base"
 
     MDFloatLayout:
         size_hint: None, None
-        size: Window.size
         pos_hint: {"center_x": .5, "center_y": .5}
 
-        ColoredButton:
-            sizee: 75
-            text: "create"
-            pos_hint: {"center_x": .5, "center_y": .4}
+        MDBoxLayout:
+            orientation: "vertical"
+            adaptive_height: True
+            pos_hint: {"center_x": .5, "center_y": .5}
 
-        ColoredButton:
-            sizee: 75
-            text: "update"
-            pos_hint: {"center_x": .5, "center_y": .6}
+            ColoredButton:
+                sizee: 75
+                text: "create"
+
+            ColoredButton:
+                sizee: 75
+                text: "update"
+

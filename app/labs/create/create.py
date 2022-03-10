@@ -1,12 +1,10 @@
 import os.path
-
 import kivymd
-from kivy.clock import Clock
+
 from kivy.lang import Builder
 from kivymd.app import MDApp
 from kivymd.toast import toast
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.button import MDFlatButton
 from kivymd.uix.card import MDSeparator
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.menu import MDDropdownMenu
@@ -16,16 +14,31 @@ from plyer import filechooser
 
 from components.ticket_banner.ticket_banner import TicketBanner
 from lab import create_event
-from static import COLOR, correct_date, CATEGORY, convert, hasher, make_event
+from static import COLOR, correct_date, CATEGORY, convert, hasher, make_event, read_event, add_event_key, add_tickets
 
 Builder.load_file("app/labs/create/create.kv")
 
 
 class Create(MDScreen):
+    def __init__(self, **kw):
+        self.one = None
+        self.two = None
+        self.three = None
+        super().__init__(**kw)
+
     def on_kv_post(self, base_widget):
         self.one = One()
         self.two = None
         self.ids.base.add_widget(self.one)
+
+    def go_back(self):
+        if not self.three:
+            # get two
+            two = self.children[0].children[0].children[0]
+
+            # switch
+            self.ids.base.remove_widget(two)
+            self.ids.base.add_widget(self.one)
 
 
 class One(MDBoxLayout):
@@ -128,41 +141,47 @@ class One(MDBoxLayout):
         data["color"] = data["color"][:~1].lower()
         data["category"] = data["category"][:~1].lower()
 
-        self.data = data
+        # TODO: utf-8 encoding for json file
+        # TODO: solve time picker issue
 
+        # add data to event temp file
+        make_event(data)
+
+        # manage create screens
         one = self.parent.parent.parent.one
-        two = Two(self.data)
-        # two.data = self.data
+        two = Two()
 
         frame = one.parent
         frame.remove_widget(one)
 
-        make_event(data)
-
-        with open("temp/count.txt", "w+") as file:
-            file.write("0")
-
         frame.add_widget(two)
         frame.children[1].icon = "backburger"
 
+        # reset ticket counter
+        with open("temp/count.txt", "w+") as file:
+            file.write("0")
+
 
 class Two(MDBoxLayout):
-    def __init__(self, data, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.dialog = MDDialog(
             title="Add a ticket",
             type="custom",
             content_cls=Content()
         )
-        self.data = data
-        self.ticket_id = hasher(self.data)[~12:].upper()
-        print(self.ticket_id, self.data)
 
-        self.ids.ticket_id.text = self.ticket_id
+        # hash data and add event key
+        data = read_event()
+        key = hasher(data)[~12:].upper()
 
+        add_event_key(key)
+
+        self.ids.ticket_id.text = key
+
+        # add table head
         self.ids.table.add_widget(MDSeparator())
-        self.ids.table.add_widget(TicketBanner("Qty", "Name", "Price", "blank"))
-        # self.ids.table.add_widget(MDSeparator())
+        self.ids.table.add_widget(TicketBanner("Qty", "Type", "Price", "blank"))
 
     def open(self):
 
@@ -178,27 +197,42 @@ class Two(MDBoxLayout):
                 toast("No more than 5 tickets per event")
 
     def validate(self):
-        print(self.ids.table.children)
+        children = [i for i in self.ids.table.children]
+
+        # remove noise
+        for i in children:
+            if i.__class__ == kivymd.uix.card.MDSeparator:
+                children.remove(i)
+
+        if children[~0].quantity.lower() == "qty":
+            children.pop(~0)
+
+        # get tickets data
+        tickets = []
+
+        for i in children:
+            a = dict()
+            a["quantity"] = i.quantity
+            a["type"] = i.type
+            a["price"] = i.price
+            a["advantage"] = i.advantage
+
+            tickets.append(a)
+
+        add_tickets(tickets)
 
 
 class Content(MDBoxLayout):
-    @staticmethod
-    def magnify(field, text):
-        if field.text == text and field.focused:
-            field.text = ""
 
-        elif field.text == "" and not field.focused:
-            field.text = text
-
-    def add_ticket(self, qty, name, price, advantage):
-        print(qty, name, price, advantage)
+    def add_ticket(self, qty, type, price, advantage):
+        q, t, p, a = str(qty.text), str(type.text), str(price.text), str(advantage.text),
 
         ticket = dict()
 
-        ticket["quantity"] = int(qty)
-        ticket["name"] = name
-        ticket["price"] = price
-        ticket["advantage"] = advantage
+        ticket["quantity"] = int(q)
+        ticket["type"] = t
+        ticket["price"] = p
+        ticket["advantage"] = a
 
         print(ticket)
 
@@ -206,7 +240,7 @@ class Content(MDBoxLayout):
         frame = app.root.ids.main.ids.second_manager.children[1].children[0].children[0].children[0].children[0].\
             children[0].children[0].children[0].children[0].children[0].children[2].children[0]
 
-        frame.add_widget(TicketBanner(qty, name, price))
+        frame.add_widget(TicketBanner(q, t, p, advantage=a))
 
         with open("temp/count.txt", "r+") as file:
             file.seek(0)
@@ -215,5 +249,11 @@ class Content(MDBoxLayout):
 
         with open("temp/count.txt", "w+") as file:
             file.write(f"{a + 1}")
+
+        # clear fields
+        qty.text = ""
+        type.text = ""
+        price.text = ""
+        advantage.text = ""
 
         self.parent.parent.parent.dismiss()

@@ -20,6 +20,8 @@
                 icon: "close-circle-outline"
                 pos_hint: {"right": .9}
                 user_font_size: 35
+                on_release:
+                    root.manager.current = "Base" if self.icon == "close-circle-outline" else root.go_back()
 
 <One>
     id: one
@@ -63,8 +65,17 @@
         MDTextField:
             id: name
             text: "EVENT NAME"
+            on_text_validate: location.focus = True
             halign: "center"
             on_focus: magnify(self, "EVENT NAME")
+            adaptive_height: True
+
+        MDTextField:
+            id: location
+            text: "EVENT LOCATION"
+            halign: "center"
+            on_text_validate: about.focus = True
+            on_focus: magnify(self, "EVENT LOCATION")
             adaptive_height: True
 
         MDTextField:
@@ -75,12 +86,6 @@
             on_focus: magnify(self, "ABOUT EVENT")
             adaptive_height: True
 
-        MDTextField:
-            id: location
-            text: "EVENT LOCATION"
-            halign: "center"
-            on_focus: magnify(self, "EVENT LOCATION")
-            adaptive_height: True
 
     MDBoxLayout:
         adaptive_size: True
@@ -131,7 +136,7 @@
 
         MDTextButton:
             size_hint_x: None
-            width: len(self.text)*8
+            width: len(self.text)*9
             id: category
             text: "Category >"
             on_release: root.category()
@@ -206,24 +211,28 @@
         text: "Quantity"
         halign: "center"
         on_focus: magnify(self, "Quantity")
+        on_text_validate: type.focus = True
 
     MDTextField:
-        id: name
-        text: "Name"
+        id: type
+        text: "Type"
         halign: "center"
-        on_focus: magnify(self, "Name")
+        on_focus: magnify(self, "Type")
+        on_text_validate: price.focus = True
 
     MDTextField:
         id: price
         text: "Price"
         halign: "center"
         on_focus: magnify(self, "Price")
+        on_text_validate: advantage.focus = True
 
     MDTextField:
         id: advantage
         text: "Advantage"
         halign: "center"
         on_focus: magnify(self, "Advantage")
+        on_text_validate: root.add_ticket(quantity,type,price,advantage)
 
     MDFloatLayout:
         size_hint_y: None
@@ -235,6 +244,6 @@
             bold: True
             font_size: 20
             pos_hint: {"center_x": .75, "center_y": .5}
-            on_release: root.add_ticket(quantity.text,name.text,price.text,advantage.text)
+            on_release: root.add_ticket(quantity,type,price,advantage)
 
     Widget:
