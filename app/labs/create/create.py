@@ -29,6 +29,12 @@ class Create(MDScreen):
 
 
 class One(MDBoxLayout):
+    def __init__(self, **kwargs):
+        self.color_menu = None
+        self.category_menu = None
+        self.data = None
+        super().__init__(**kwargs)
+
     def choose(self):
 
         file = filechooser.open_file()
@@ -66,14 +72,6 @@ class One(MDBoxLayout):
         time_picker = MDTimePicker(hour="8", minute="31")
         time_picker.bind(on_save=self.on_save_time)
         time_picker.open()
-
-    @staticmethod
-    def magnify(field, text):
-        if field.text == text and field.focused:
-            field.text = ""
-
-        elif field.text == "" and not field.focused:
-            field.text = text
 
     def menu_callback(self, actual, name):
         if name == "color":
@@ -134,13 +132,15 @@ class One(MDBoxLayout):
 
         one = self.parent.parent.parent.one
         two = Two(self.data)
-        two.data = self.data
+        # two.data = self.data
 
         frame = one.parent
         frame.remove_widget(one)
-        # print(one)
 
         make_event(data)
+
+        with open("temp/count.txt", "w+") as file:
+            file.write("0")
 
         frame.add_widget(two)
         frame.children[1].icon = "backburger"
@@ -162,10 +162,20 @@ class Two(MDBoxLayout):
 
         self.ids.table.add_widget(MDSeparator())
         self.ids.table.add_widget(TicketBanner("Qty", "Name", "Price", "blank"))
-        self.ids.table.add_widget(MDSeparator())
+        # self.ids.table.add_widget(MDSeparator())
 
     def open(self):
-        self.dialog.open()
+
+        with open("temp/count.txt", "r+") as file:
+            file.seek(0)
+            a = file.readlines()
+            a = int(a[0])
+
+            if a < 5:
+                self.dialog.open()
+
+            else:
+                toast("No more than 5 tickets per event")
 
     def validate(self):
         print(self.ids.table.children)
@@ -194,8 +204,16 @@ class Content(MDBoxLayout):
 
         app = MDApp.get_running_app()
         frame = app.root.ids.main.ids.second_manager.children[1].children[0].children[0].children[0].children[0].\
-                children[0].children[0].children[0].children[0].children[0].children[2]
+            children[0].children[0].children[0].children[0].children[0].children[2].children[0]
 
         frame.add_widget(TicketBanner(qty, name, price))
+
+        with open("temp/count.txt", "r+") as file:
+            file.seek(0)
+            a = file.readlines()
+            a = int(a[0])
+
+        with open("temp/count.txt", "w+") as file:
+            file.write(f"{a + 1}")
 
         self.parent.parent.parent.dismiss()

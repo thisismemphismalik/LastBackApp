@@ -1,4 +1,5 @@
 #:import TicketBanner components.ticket_banner.ticket_banner.TicketBanner
+#:import magnify static.magnify
 
 <Create>
     name: "Create"
@@ -63,7 +64,7 @@
             id: name
             text: "EVENT NAME"
             halign: "center"
-            on_focus: root.magnify(self, "EVENT NAME")
+            on_focus: magnify(self, "EVENT NAME")
             adaptive_height: True
 
         MDTextField:
@@ -71,14 +72,14 @@
             text: "ABOUT EVENT"
             multiline: True
             halign: "center"
-            on_focus: root.magnify(self, "ABOUT EVENT")
+            on_focus: magnify(self, "ABOUT EVENT")
             adaptive_height: True
 
         MDTextField:
             id: location
             text: "EVENT LOCATION"
             halign: "center"
-            on_focus: root.magnify(self, "EVENT LOCATION")
+            on_focus: magnify(self, "EVENT LOCATION")
             adaptive_height: True
 
     MDBoxLayout:
@@ -175,9 +176,16 @@
         text_color: 0,0,1,.5
         on_release: root.open()
 
-    MDBoxLayout:
-        id: table
-        orientation: "vertical"
+    MDFloatLayout:
+        size_hint_y: None
+        height: 240
+#        md_bg_color: 1,0,0,.3
+
+        MDBoxLayout:
+            id: table
+            orientation: "vertical"
+            adaptive_height: True
+            pos_hint: {"center_x": .5, "top": 1}
 
     MDTextButton:
         text: "VALIDATE"
@@ -197,25 +205,25 @@
         id: quantity
         text: "Quantity"
         halign: "center"
-        on_focus: root.magnify(self, "Quantity")
+        on_focus: magnify(self, "Quantity")
 
     MDTextField:
         id: name
         text: "Name"
         halign: "center"
-        on_focus: root.magnify(self, "Name")
+        on_focus: magnify(self, "Name")
 
     MDTextField:
         id: price
         text: "Price"
         halign: "center"
-        on_focus: root.magnify(self, "Price")
+        on_focus: magnify(self, "Price")
 
     MDTextField:
         id: advantage
         text: "Advantage"
         halign: "center"
-        on_focus: root.magnify(self, "Advantage")
+        on_focus: magnify(self, "Advantage")
 
     MDFloatLayout:
         size_hint_y: None

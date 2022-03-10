@@ -17,3 +17,13 @@ class TicketBanner(MDCard, ButtonBehavior):
 
         super().__init__(**kwargs)
 
+    def close(self):
+        self.parent.remove_widget(self)
+
+        with open("temp/count.txt", "r+") as file:
+            file.seek(0)
+            a = file.readlines()
+            a = int(a[0])
+
+        with open("temp/count.txt", "w+") as file:
+            file.write(f"{a - 1}")

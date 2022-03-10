@@ -54,6 +54,14 @@ def make_event(data):
         json.dump(data, file, indent=4)
 
 
+def magnify(field, text):
+    if field.text == text and field.focused:
+        field.text = ""
+
+    elif field.text == "" and not field.focused:
+        field.text = text
+
+
 CATEGORY = ["cinéma", "festival", "theatre", "musée", "sport", "concours", "mode"]
 
 COLOR = ["black", "blue", "green", "red", "sky-blue", "violet", "yellow", "white"]

@@ -2,9 +2,10 @@
     elevation: 0
     size_hint_y: None
     height: 40
-    padding: [10, 0]
+    orientation: "vertical"
 
     MDBoxLayout:
+        padding: [10, 0]
 
         MDLabel:
             size_hint_x: None
@@ -24,3 +25,7 @@
             theme_text_color: "Custom"
             text_color: 1,0,0,.7
             pos_hint: {"center_y": .5}
+            on_release:
+                root.close() if self.icon == "close-circle-outline" else None
+
+    MDSeparator:
