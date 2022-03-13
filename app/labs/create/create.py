@@ -28,7 +28,7 @@ class Create(MDScreen):
 
     def on_kv_post(self, base_widget):
         self.one = One()
-        self.ids.base.add_widget(Three())
+        self.ids.base.add_widget(self.one)
 
     def go_back(self):
         if self.ids.back.icon == "close-circle-outline":
@@ -145,15 +145,14 @@ class One(MDBoxLayout):
 
         self.category_menu.open()
 
-    def validate(self, name, image, color, category, about, location, date, time):
-        infos = [name, image, color, category, about, location, date, time]
+    def validate(self, name, image, color, category, about, location, date, time, seller, dt):
+        infos = [name, image, color, category, about, location, date, time, seller]
         data = create_event([i.text for i in infos])
-
         # correct color and category values
 
         data["color"] = data["color"][:~1].lower()
         data["category"] = data["category"][:~1].lower()
-
+        print(data)
         # add data to event temp file
         make_event(data)
 
@@ -169,7 +168,7 @@ class One(MDBoxLayout):
 
         base.two = two
 
-        print(base.one, base.two)
+        # print(base.one, base.two)
         # reset ticket counter
         with open("temp/count.txt", "w+") as file:
             file.write("0")
@@ -209,7 +208,7 @@ class Two(MDBoxLayout):
             else:
                 toast("No more than 5 tickets per event")
 
-    def validate(self):
+    def validate(self, dt):
         children = [i for i in self.ids.table.children]
 
         # remove noise
@@ -247,11 +246,25 @@ class Two(MDBoxLayout):
 
 
 class Three(MDBoxLayout):
-    def on_kv_post(self, base_widget):
-        # self.ids.tickets.add_widget(TicketBanner("Qty", "Type", "Price", "blank"))
+    def __init__(self, **kwargs):
+        self.data = read_event()
+        self.id = [i for i in self.data.keys()][0]
+        self.image = self.data[self.id]["image"]
+        self.name = self.data[self.id]["name"]
+        self.category = self.data[self.id]["category"]
+        self.seller = self.data[self.id]["seller"]
+        self.date = self.data[self.id]["date"]
+        self.time = self.data[self.id]["time"]
+        self.color = self.data[self.id]["color"]
+        self.about = self.data[self.id]["about"]
+        self.tickets = self.data[self.id]["tickets"]
 
-        for i in range(5):
-            self.ids.tickets.add_widget(TicketBanner("110", "V.I.P.", "10 000", "information-outline", "advantage"))
+        super().__init__(**kwargs)
+
+    def on_kv_post(self, base_widget):
+        for i in self.tickets:
+            self.ids.tickets.add_widget(TicketBanner(i["quantity"], i["type"], i["price"], "information-outline",
+                                                     i["advantage"]))
 
 
 class Content(MDBoxLayout):
@@ -269,7 +282,7 @@ class Content(MDBoxLayout):
         print(ticket)
 
         app = MDApp.get_running_app()
-        frame = app.root.ids.main.ids.second_manager.children[1].children[0].children[0].children[0].children[0].\
+        frame = app.root.ids.main.ids.second_manager.children[1].children[0].children[0].children[0].children[0]. \
             children[0].children[0].children[0].children[0].children[0].children[2].children[0]
 
         frame.add_widget(TicketBanner(q, t, p, advantage=a))

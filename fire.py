@@ -61,7 +61,7 @@ class Storage:
 
         r = requests.post(url=self.url+cloud_file, data=local_file, headers=headers, verify=certifi.where())
 
-        print(self.url+cloud_file+"?alt=media")
+        return self.url+cloud_file+"?alt=media"
 
 
 class Database:

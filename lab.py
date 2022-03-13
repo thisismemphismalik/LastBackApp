@@ -7,7 +7,8 @@ def create_event(infos: list):
         "about": infos[4],
         "location": infos[5],
         "date": infos[6],
-        "time": infos[7]
+        "time": infos[7],
+        "seller": infos[8]
     }
 
     return data

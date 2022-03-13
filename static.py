@@ -18,7 +18,11 @@ def color(name):
         "white": [1, 1, 1, 1],
     }
 
-    return base[name]
+    try:
+        return base[name]
+
+    except KeyError:
+        return [0, 0, 0, 1]
 
 
 def correct_date(date):
@@ -89,6 +93,12 @@ def add_tickets(tickets):
         make_event(data)
 
 
-CATEGORY = ["cinéma", "festival", "theatre", "musée", "sport", "concours", "mode"]
+def id_parser(old):
+    ids = old
+    ids = ' '.join([ids[i:i+3] for i in range(0, len(ids), 3)])
+
+    return ids
+
+CATEGORY = ["cinéma", "concert", "festival", "theatre", "musée", "sport", "concours", "mode"]
 
 COLOR = ["black", "blue", "green", "red", "sky-blue", "violet", "yellow", "white"]
