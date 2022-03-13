@@ -51,7 +51,7 @@ def convert(old_path, new_path):
 
 def make_event(data):
     with open("./temp/event.json", "w+") as file:
-        json.dump(data, file, indent=4)
+        json.dump(data, file, indent=4, ensure_ascii=False)
 
 
 def read_event():

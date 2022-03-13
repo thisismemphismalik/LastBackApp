@@ -23,9 +23,10 @@
         MDIconButton:
             icon: root.icon
             theme_text_color: "Custom"
-            text_color: 1,0,0,.7
+            text_color: [1,0,0,.7] if self.icon == "close-circle-outline" else [0,0,1,.7]
             pos_hint: {"center_y": .5}
             on_release:
                 root.close() if self.icon == "close-circle-outline" else None
+                root.show() if self.icon == "information-outline" else None
 
     MDSeparator:

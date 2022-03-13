@@ -16,12 +16,13 @@
             md_bg_color: 0,0,0,.05
 
             MDIconButton:
+                id: back
                 level: 1
                 icon: "close-circle-outline"
                 pos_hint: {"right": .9}
                 user_font_size: 35
                 on_release:
-                    root.manager.current = "Base" if self.icon == "close-circle-outline" else root.go_back()
+                    root.go_back()
 
 <One>
     id: one
@@ -149,7 +150,6 @@
         pos_hint: {"center_x": .5}
 
         MDTextButton:
-            padding:
             text: "VALIDATE"
             bold: True
             halign: "center"
@@ -192,11 +192,178 @@
             adaptive_height: True
             pos_hint: {"center_x": .5, "top": 1}
 
-    MDTextButton:
-        text: "VALIDATE"
-        on_release: root.validate()
+    MDBoxLayout:
+        adaptive_size: True
+        padding: [10]
+        md_bg_color: 0,0,0,.1
+        pos_hint: {"center_x": .5}
+
+        MDTextButton:
+            text: "VALIDATE"
+            bold: True
+            on_release: root.validate()
 
     Widget:
+
+<Three>
+    id: three
+    size_hint_x: .8
+    pos_hint: {"center_x": .5}
+    radius: [25, 25, 0, 0]
+#    padding: [0, 10]
+#    spacing: 15
+    md_bg_color: 1,1,1,1
+    orientation: "vertical"
+
+    ScrollView:
+        bar_width: 0
+
+        MDBoxLayout:
+            adaptive_height: True
+            orientation: "vertical"
+            radius: [25, 25, 0, 0]
+
+            FitImage:
+                radius: [25, 25, 0, 0]
+                source: "./modrian.png"
+                size_hint_y: None
+                height: 150
+
+            MDSeparator:
+
+            MDBoxLayout:
+                adaptive_height: True
+                padding: [0, 10]
+
+                MDLabel:
+                    adaptive_height: True
+                    text: "Concert Roi 12 12".upper()
+                    bold: True
+                    halign: "center"
+
+            MDSeparator:
+
+            MDBoxLayout:
+                adaptive_height: True
+
+                MDFloatLayout:
+                    size_hint_y: None
+                    height: 25
+                    padding: [0, 5]
+
+                    MDLabel:
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        adaptive_height: True
+                        halign: "center"
+                        text: "Concert"
+
+                MDSeparator:
+                    orientation: "vertical"
+
+                MDFloatLayout:
+                    size_hint_y: None
+                    height: 25
+                    padding: [0, 5]
+
+                    MDLabel:
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        adaptive_height: True
+                        halign: "center"
+                        text: "Bamada City"
+
+            MDSeparator:
+
+            MDBoxLayout:
+                adaptive_height: True
+
+                MDFloatLayout:
+                    size_hint_y: None
+                    height: 25
+                    padding: [0, 5]
+
+                    MDLabel:
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        adaptive_height: True
+                        halign: "center"
+                        text: "16/08/2022"
+
+                MDSeparator:
+                    orientation: "vertical"
+
+                MDFloatLayout:
+                    size_hint_y: None
+                    height: 25
+                    padding: [0, 5]
+
+                    MDLabel:
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        adaptive_height: True
+                        halign: "center"
+                        text: "20:45"
+
+                MDSeparator:
+                    orientation: "vertical"
+
+                MDBoxLayout:
+        #            adaptive_size: True
+                    size_hint: None, None
+                    size: 25, 25
+                    padding: [0, 5]
+
+                    Widget:
+                        pos_hint: {"center_x": .5, "center_y": .5}
+                        canvas:
+                            Color:
+                                rgba: 1,0,0,1
+
+                            RoundedRectangle:
+                                size: 20, 20
+                                radius: [5]
+                                pos: self.center[0] - 10, self.center[1] - 10
+
+            MDSeparator:
+
+            MDBoxLayout:
+                adaptive_height: True
+                padding: [10]
+
+                MDLabel:
+                    adaptive_height: True
+                    halign: "center"
+                    text: "bla\nbla\nbla"
+
+            MDSeparator:
+            MDBoxLayout:
+                id: tickets
+                adaptive_height: True
+                orientation: "vertical"
+
+                MDBoxLayout:
+                    adaptive_height: True
+                    padding: [10]
+
+                    MDLabel:
+                        adaptive_height: True
+                        halign: "center"
+                        text: "TICKETS"
+
+                MDSeparator:
+
+            MDFloatLayout:
+                size_hint: 1, None
+                height: 75
+
+                MDBoxLayout:
+                    adaptive_size: True
+                    padding: [10]
+                    md_bg_color: 0,0,0,.1
+                    pos_hint: {"center_x": .5, "center_y": .5}
+
+                    MDTextButton:
+                        text: "VALIDATE"
+                        bold: True
+                        on_release: print(0)
+            Widget:
 
 <Content>
     orientation: "vertical"

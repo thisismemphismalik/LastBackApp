@@ -28,17 +28,30 @@ class Create(MDScreen):
 
     def on_kv_post(self, base_widget):
         self.one = One()
-        self.two = None
-        self.ids.base.add_widget(self.one)
+        self.ids.base.add_widget(Three())
 
     def go_back(self):
-        if not self.three:
-            # get two
-            two = self.children[0].children[0].children[0]
+        if self.ids.back.icon == "close-circle-outline":
+            self.manager.current = "Base"
 
-            # switch
-            self.ids.base.remove_widget(two)
-            self.ids.base.add_widget(self.one)
+        else:
+            one = self.one
+            two = self.two
+            three = self.three
+
+            if not three:
+                # switch
+                self.ids.base.remove_widget(two)
+                self.ids.base.add_widget(one)
+
+                self.ids.back.icon = "close-circle-outline"
+                self.two = None
+
+            else:
+                # switch
+                self.ids.base.remove_widget(three)
+                self.ids.base.add_widget(two)
+                self.three = None
 
 
 class One(MDBoxLayout):
@@ -141,22 +154,22 @@ class One(MDBoxLayout):
         data["color"] = data["color"][:~1].lower()
         data["category"] = data["category"][:~1].lower()
 
-        # TODO: utf-8 encoding for json file
-        # TODO: solve time picker issue
-
         # add data to event temp file
         make_event(data)
 
         # manage create screens
+        base = self.parent.parent.parent
         one = self.parent.parent.parent.one
         two = Two()
 
         frame = one.parent
         frame.remove_widget(one)
-
         frame.add_widget(two)
         frame.children[1].icon = "backburger"
 
+        base.two = two
+
+        print(base.one, base.two)
         # reset ticket counter
         with open("temp/count.txt", "w+") as file:
             file.write("0")
@@ -221,6 +234,25 @@ class Two(MDBoxLayout):
 
         add_tickets(tickets)
 
+        # switch to third part
+        base = self.parent.parent.parent
+        two = self.parent.parent.parent.two
+        three = Three()
+
+        frame = two.parent
+        frame.remove_widget(two)
+        frame.add_widget(three)
+
+        base.three = three
+
+
+class Three(MDBoxLayout):
+    def on_kv_post(self, base_widget):
+        # self.ids.tickets.add_widget(TicketBanner("Qty", "Type", "Price", "blank"))
+
+        for i in range(5):
+            self.ids.tickets.add_widget(TicketBanner("110", "V.I.P.", "10 000", "information-outline", "advantage"))
+
 
 class Content(MDBoxLayout):
 
@@ -251,9 +283,9 @@ class Content(MDBoxLayout):
             file.write(f"{a + 1}")
 
         # clear fields
-        qty.text = ""
-        type.text = ""
-        price.text = ""
-        advantage.text = ""
+        qty.text = "Quantity"
+        type.text = "Type"
+        price.text = "Price"
+        advantage.text = "Advantage"
 
         self.parent.parent.parent.dismiss()
