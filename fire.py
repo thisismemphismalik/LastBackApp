@@ -53,11 +53,15 @@ class Storage:
         self.id = "treize-13"
         self.url = f"https://firebasestorage.googleapis.com/v0/b/{self.id}.appspot.com/o/"
 
-    def upload(self, local_path, cloud_path, content_type):
+    def upload_event_image(self, local_path, event_id):
+        file_type = local_path.split(".")[~0]
+
         local_file = open(local_path, "rb").read()
+
+        cloud_path = "events/" + event_id + "." + file_type
         cloud_file = cloud_path.replace("/", self.seperator)
 
-        headers = {"Content-Type": content_type}
+        headers = {"Content-Type": f"image/{file_type}"}
 
         r = requests.post(url=self.url+cloud_file, data=local_file, headers=headers, verify=certifi.where())
 
@@ -79,3 +83,4 @@ class Database:
         except requests.exceptions.ConnectionError:
             toast("No connection to the database")
             Logger.warning(f"No connection to the database")
+

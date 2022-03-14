@@ -1,5 +1,9 @@
 import os.path
+from functools import partial
+
 import kivymd
+from kivy.clock import Clock
+from kivy.graphics import Line
 
 from kivy.lang import Builder
 from kivymd.app import MDApp
@@ -7,12 +11,14 @@ from kivymd.toast import toast
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.card import MDSeparator
 from kivymd.uix.dialog import MDDialog
+from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.uix.menu import MDDropdownMenu
 from kivymd.uix.picker import MDDatePicker, MDTimePicker
 from kivymd.uix.screen import MDScreen
 from plyer import filechooser
 
 from components.ticket_banner.ticket_banner import TicketBanner
+from fire import Storage, Database, Fire
 from lab import create_event
 from static import COLOR, correct_date, CATEGORY, convert, hasher, make_event, read_event, add_event_key, add_tickets
 
@@ -152,7 +158,7 @@ class One(MDBoxLayout):
 
         data["color"] = data["color"][:~1].lower()
         data["category"] = data["category"][:~1].lower()
-        print(data)
+
         # add data to event temp file
         make_event(data)
 
@@ -168,7 +174,6 @@ class One(MDBoxLayout):
 
         base.two = two
 
-        # print(base.one, base.two)
         # reset ticket counter
         with open("temp/count.txt", "w+") as file:
             file.write("0")
@@ -259,12 +264,67 @@ class Three(MDBoxLayout):
         self.about = self.data[self.id]["about"]
         self.tickets = self.data[self.id]["tickets"]
 
+        self.spin = Spin()
         super().__init__(**kwargs)
 
     def on_kv_post(self, base_widget):
         for i in self.tickets:
             self.ids.tickets.add_widget(TicketBanner(i["quantity"], i["type"], i["price"], "information-outline",
                                                      i["advantage"]))
+
+    def spinner(self, to_do, dt):
+        under = self.parent.parent.parent
+        spin = self.spin
+
+        if to_do.lower() == "start":
+            # start the spinner
+            under.add_widget(spin)
+
+        else:
+            under.remove_widget(spin)
+
+    def validate(self, dt):
+        event = read_event()
+        ids = [i for i in event.keys()][0]
+
+        uploader = Storage()
+        url = uploader.upload_event_image(event[ids]["image"], ids)
+
+        event[ids]["image"] = url
+
+        make_event(event)
+
+        # add event to database
+        ak = "AIzaSyAvOrMZxvQyHAtn70prSGJbIcyRUTgBgy8"
+        p_id = "treize-13"
+
+        fire = Fire(ak, p_id)
+        db = Database(fire)
+
+        db.add_event(ids, event[ids])
+        print(db)
+
+        # stop the spinner
+        Clock.schedule_once(partial(self.spinner, "stop"), 1)
+        Clock.schedule_once(self.switch, 2)
+
+    def switch(self, dt):
+        # go to one
+        base = self.parent.parent.parent
+        base.one = One()
+
+        frame = self.parent
+        frame.remove_widget(self)
+        frame.add_widget(base.one)
+
+
+class Spin(MDFloatLayout):
+
+    def on_kv_post(self, base_widget):
+        Clock.schedule_interval(self.animation, 1//5)
+
+    def animation(self, dt):
+        self.xx, self.yy = self.xx + 5, self.yy + 5
 
 
 class Content(MDBoxLayout):
@@ -278,8 +338,6 @@ class Content(MDBoxLayout):
         ticket["type"] = t
         ticket["price"] = p
         ticket["advantage"] = a
-
-        print(ticket)
 
         app = MDApp.get_running_app()
         frame = app.root.ids.main.ids.second_manager.children[1].children[0].children[0].children[0].children[0]. \

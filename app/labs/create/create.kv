@@ -9,9 +9,11 @@
     name: "Create"
 
     MDFloatLayout:
+        id: under
         size_hint: None, None
         size: Window.size
         pos_hint: {"center_x": .5, "center_y": .5}
+
 
         MDBoxLayout:
             id: base
@@ -27,6 +29,7 @@
                 user_font_size: 35
                 on_release:
                     root.go_back()
+
 
 <One>
     id: one
@@ -389,8 +392,42 @@
                     MDTextButton:
                         text: "VALIDATE"
                         bold: True
-                        on_release: print(0)
+                        on_release:
+                            Clock.schedule_once(partial(root.spinner, "start"), .5)
+                            Clock.schedule_once(root.validate, 1.5)
             Widget:
+
+<Spin>
+    size_hint: None, None
+    pos_hint: {"center_x": .5, "center_y": .5}
+    xx: 0
+    yy: 260
+    size: 250, 250
+    radius: [50]
+    md_bg_color: 0,0,0,.9
+
+    MDLabel:
+        adaptive_size: True
+        text: "action in progress"
+        font_size: 25
+        theme_text_color: "Custom"
+        text_color: 1,1,1,1
+        pos_hint: {"center_x": .5, "center_y": .7}
+
+    Widget:
+        size_hint: None, None
+        size: 50, 50
+        pos_hint: {"center_x": .5, "center_y": .5}
+
+        canvas:
+            Color:
+                rgba: 1,1,1,1
+
+            Line:
+                circle: (self.center[0], self.center[1] - 20, 25, root.xx, root.yy)
+                width: 3
+
+
 
 <Content>
     orientation: "vertical"
