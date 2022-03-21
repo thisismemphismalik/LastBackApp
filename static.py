@@ -45,7 +45,6 @@ def hasher(data):
 
 
 def convert(old_path, new_path):
-
     size = (555, 555)
     img = Image.open(old_path)
     img = ImageOps.fit(img, size, Image.ANTIALIAS)
@@ -95,10 +94,55 @@ def add_tickets(tickets):
 
 def id_parser(old):
     ids = old
-    ids = ' '.join([ids[i:i+3] for i in range(0, len(ids), 3)])
+    ids = ' '.join([ids[i:i + 3] for i in range(0, len(ids), 3)])
 
     return ids
+
+
+def make_tags():
+    data = read_event()
+    ids = [i for i in data.keys()][0]
+
+    data = data[ids]
+
+    all_tags = set()
+
+    # add tags for long_fields ("location", "about", "name", "seller")
+    long_fields = ["location", "about", "name", "seller"]
+
+    for i in long_fields:
+
+        for j in data[i].split(" "):
+            all_tags.add(j.lower())
+
+    # add category's tag
+    all_tags.add(data["location"].lower())
+
+    # add tags for time
+    time = data["time"]
+    all_tags.add(time)
+    all_tags.add(time.replace(":", "h"))
+    all_tags.add(f"""{time.split(":")[0]}""")
+    all_tags.add(f"""{time.split(":")[~0]}""")
+    all_tags.add(f"""{time.split(":")[0] + "h"}""")
+
+    # add tags for tickets
+    tickets = data["tickets"]
+
+    for i in tickets:
+        # add "type"
+        all_tags.add(i["type"].lower())
+
+        # add "price"
+        all_tags.add(i["price"])
+        all_tags.add(i["price"].replace(" ", ""))
+
+    # print(all_tags)
+
 
 CATEGORY = ["cinéma", "concert", "festival", "theatre", "musée", "sport", "concours", "mode"]
 
 COLOR = ["black", "blue", "green", "red", "sky-blue", "violet", "yellow", "white"]
+
+make_tags()
+a = tuple()

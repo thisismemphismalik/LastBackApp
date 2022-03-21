@@ -61,7 +61,9 @@
                 pos_hint: {"center_x": .5, "center_y": .5}
 
             MDIconButton:
-                on_release: root.choose()
+                on_release:
+                    Clock.schedule_once(partial(root.spinner, "start"), .5)
+                    Clock.schedule_once(root.choose, 1.5)
                 icon: "pencil"
                 user_font_size: 20
                 pos_hint: {"right": .95, "top": .3}
@@ -414,18 +416,24 @@
         text_color: 1,1,1,1
         pos_hint: {"center_x": .5, "center_y": .7}
 
-    Widget:
+    FitImage:
         size_hint: None, None
         size: 50, 50
         pos_hint: {"center_x": .5, "center_y": .5}
+        source: "./gif.gif"
 
-        canvas:
-            Color:
-                rgba: 1,1,1,1
-
-            Line:
-                circle: (self.center[0], self.center[1] - 20, 25, root.xx, root.yy)
-                width: 3
+#    Widget:
+#        size_hint: None, None
+#        size: 50, 50
+#        pos_hint: {"center_x": .5, "center_y": .5}
+#
+#        canvas:
+#            Color:
+#                rgba: 1,1,1,1
+#
+#            Line:
+#                circle: (self.center[0], self.center[1] - 20, 25, root.xx, root.yy)
+#                width: 3
 
 
 

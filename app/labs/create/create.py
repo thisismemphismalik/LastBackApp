@@ -3,7 +3,6 @@ from functools import partial
 
 import kivymd
 from kivy.clock import Clock
-from kivy.graphics import Line
 
 from kivy.lang import Builder
 from kivymd.app import MDApp
@@ -20,7 +19,7 @@ from plyer import filechooser
 from components.ticket_banner.ticket_banner import TicketBanner
 from fire import Storage, Database, Fire
 from lab import create_event
-from static import COLOR, correct_date, CATEGORY, convert, hasher, make_event, read_event, add_event_key, add_tickets
+from static import COLOR, correct_date, CATEGORY, convert, hasher, make_event, read_event, add_event_key, add_tickets, make_tags
 
 Builder.load_file("app/labs/create/create.kv")
 
@@ -65,9 +64,22 @@ class One(MDBoxLayout):
         self.color_menu = None
         self.category_menu = None
         self.data = None
+
+        self.spin = Spin()
         super().__init__(**kwargs)
 
-    def choose(self):
+    def spinner(self, to_do, dt):
+        under = self.parent.parent.parent
+        spin = self.spin
+
+        if to_do.lower() == "start":
+            # start the spinner
+            under.add_widget(spin)
+
+        else:
+            under.remove_widget(spin)
+
+    def choose(self, dt):
 
         file = filechooser.open_file()
 
@@ -88,6 +100,8 @@ class One(MDBoxLayout):
 
         except TypeError:
             pass
+
+        Clock.schedule_once(partial(self.spinner, "stop"), 1)
 
     def on_save_date(self, instance, value, date_range):
         self.ids["date"].text = correct_date(value)
@@ -304,6 +318,8 @@ class Three(MDBoxLayout):
         db.add_event(ids, event[ids])
         print(db)
 
+        make_tags()
+
         # stop the spinner
         Clock.schedule_once(partial(self.spinner, "stop"), 1)
         Clock.schedule_once(self.switch, 2)
@@ -324,7 +340,8 @@ class Spin(MDFloatLayout):
         Clock.schedule_interval(self.animation, 1//5)
 
     def animation(self, dt):
-        self.xx, self.yy = self.xx + 5, self.yy + 5
+        spin = self
+        spin.xx, spin.yy = spin.xx + 5, spin.yy + 5
 
 
 class Content(MDBoxLayout):
