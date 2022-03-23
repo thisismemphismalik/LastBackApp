@@ -84,3 +84,17 @@ class Database:
             toast("No connection to the database")
             Logger.warning(f"No connection to the database")
 
+    def add_tags(self, event_id, tags):
+        all_tags = list(tags)
+
+        url = self.url + "tags" + ".json"
+        # TODO: arrays don't work
+        data = {x: [event_id] for x in all_tags}
+        data = json.dumps(data)
+
+        try:
+            requests.patch(url=url, data=data)
+
+        except requests.exceptions.ConnectionError:
+            toast("No connection to the database")
+            Logger.warning(f"No connection to the database")

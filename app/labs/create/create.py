@@ -316,9 +316,11 @@ class Three(MDBoxLayout):
         db = Database(fire)
 
         db.add_event(ids, event[ids])
-        print(db)
 
-        make_tags()
+        # launch the tags on firebase
+        tags = make_tags()
+
+        db.add_tags(ids, tags)
 
         # stop the spinner
         Clock.schedule_once(partial(self.spinner, "stop"), 1)

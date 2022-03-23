@@ -1,5 +1,7 @@
 import json
+import locale
 import os
+from datetime import datetime
 from hashlib import sha256
 
 from PIL import Image, ImageOps
@@ -118,6 +120,15 @@ def make_tags():
     # add category's tag
     all_tags.add(data["location"].lower())
 
+    # date tags
+    locale.setlocale(locale.LC_ALL, 'fr_FR.utf-8')
+    date = data["date"].replace("/", "")
+    date = datetime.strptime(date, "%d%m%Y")
+    date = date.strftime("%A %d %B %Y")
+
+    for i in date.split(" "):
+        all_tags.add(i)
+
     # add tags for time
     time = data["time"]
     all_tags.add(time)
@@ -136,8 +147,13 @@ def make_tags():
         # add "price"
         all_tags.add(i["price"])
         all_tags.add(i["price"].replace(" ", ""))
+        all_tags.add(i["price"].replace(" ", "."))
 
-    # print(all_tags)
+        # add "advantage"
+        for j in i["advantage"].split(" "):
+            all_tags.add(j)
+
+    return all_tags
 
 
 CATEGORY = ["cinéma", "concert", "festival", "theatre", "musée", "sport", "concours", "mode"]
