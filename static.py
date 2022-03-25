@@ -160,5 +160,3 @@ CATEGORY = ["cinéma", "concert", "festival", "theatre", "musée", "sport", "con
 
 COLOR = ["black", "blue", "green", "red", "sky-blue", "violet", "yellow", "white"]
 
-make_tags()
-a = tuple()

@@ -2,6 +2,7 @@ import os.path
 from functools import partial
 
 import kivymd
+import requests
 from kivy.clock import Clock
 
 from kivy.lang import Builder
@@ -301,30 +302,35 @@ class Three(MDBoxLayout):
         event = read_event()
         ids = [i for i in event.keys()][0]
 
-        uploader = Storage()
-        url = uploader.upload_event_image(event[ids]["image"], ids)
+        try:
+            uploader = Storage()
+            url = uploader.upload_event_image(event[ids]["image"], ids)
 
-        event[ids]["image"] = url
+            event[ids]["image"] = url
 
-        make_event(event)
+            make_event(event)
 
-        # add event to database
-        ak = "AIzaSyAvOrMZxvQyHAtn70prSGJbIcyRUTgBgy8"
-        p_id = "treize-13"
+            # add event to database
+            ak = "AIzaSyAvOrMZxvQyHAtn70prSGJbIcyRUTgBgy8"
+            p_id = "treize-13"
 
-        fire = Fire(ak, p_id)
-        db = Database(fire)
+            fire = Fire(ak, p_id)
+            db = Database(fire)
 
-        db.add_event(ids, event[ids])
+            db.add_event(ids, event[ids])
 
-        # launch the tags on firebase
-        tags = make_tags()
+            # launch the tags on firebase
+            tags = make_tags()
 
-        db.add_tags(ids, tags)
+            db.add_tags(ids, tags)
 
-        # stop the spinner
-        Clock.schedule_once(partial(self.spinner, "stop"), 1)
-        Clock.schedule_once(self.switch, 2)
+            # stop the spinner
+            Clock.schedule_once(partial(self.spinner, "stop"), 1)
+            Clock.schedule_once(self.switch, 2)
+
+        except requests.exceptions.ConnectionError:
+            toast("Can't create the event ! Check your connection.")
+            Clock.schedule_once(partial(self.spinner, "stop"), 1)
 
     def switch(self, dt):
         # go to one
@@ -333,6 +339,7 @@ class Three(MDBoxLayout):
 
         frame = self.parent
         frame.remove_widget(self)
+        frame.children[0].icon = "close-circle-outline"
         frame.add_widget(base.one)
 
 
