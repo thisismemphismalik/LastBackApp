@@ -2,6 +2,32 @@
     name: "Update"
 
     MDFloatLayout:
+        id: under
         size_hint: None, None
         size: Window.size
         pos_hint: {"center_x": .5, "center_y": .5}
+
+
+        MDBoxLayout:
+            id: base
+            orientation: "vertical"
+            pos_hint: {"center_x": .5, "center_y": .5}
+            md_bg_color: 0,0,0,.05
+
+            MDIconButton:
+                id: back
+                level: 1
+                icon: "close-circle-outline"
+                pos_hint: {"right": .9}
+                user_font_size: 35
+                on_release:
+                    root.go_back()
+
+            Search:
+
+
+<Search>
+    size_hint: .8, 1
+    md_bg_color: 1,1,1,1
+    pos_hint: {"center_x": .5}
+    radius: [25, 25, 0, 0]
