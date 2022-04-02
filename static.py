@@ -1,11 +1,8 @@
 import json
 import locale
-import os
 from datetime import datetime
 from hashlib import sha256
-
 from PIL import Image, ImageOps
-from plyer import filechooser
 
 
 def color(name):

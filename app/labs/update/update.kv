@@ -1,3 +1,5 @@
+#:import magnify static.magnify
+
 <Update>
     name: "Update"
 
@@ -31,3 +33,32 @@
     md_bg_color: 1,1,1,1
     pos_hint: {"center_x": .5}
     radius: [25, 25, 0, 0]
+    padding: [0, 10, 0, 0]
+    orientation: "vertical"
+#    TODO: add hint helper for seller, id, date, name, category,
+    MDLabel:
+        text: "Search an event"
+        adaptive_height: True
+        halign: "center"
+        font_size: 25
+#        bold: True
+
+    MDTextField:
+        text: "Search"
+        size_hint_x: .8
+        pos_hint: {"center_x": .5}
+        multiline: True
+        adaptive_height: True
+        halign: "center"
+        on_focus: magnify(self, "Search")
+
+    MDBoxLayout:
+        adaptive_height: True
+        md_bg_color: 0,0,0,.5
+        opacity: .1
+        orientation: "vertical"
+
+        MDLabel:
+            text: "id: AZ54DFR627GY1"
+
+    Widget:
