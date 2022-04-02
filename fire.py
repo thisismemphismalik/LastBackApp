@@ -1,14 +1,14 @@
 import json
-
 import certifi
 import requests
+
 from kivy import Logger
 from kivymd.toast import toast
 
-from lab import create_event
+from api_key import key, identifer
 
-ak = "AIzaSyAvOrMZxvQyHAtn70prSGJbIcyRUTgBgy8"
-id = "treize-13"
+ak = key
+id = identifer
 
 
 class Fire:
