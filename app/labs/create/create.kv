@@ -416,24 +416,18 @@
         text_color: 1,1,1,1
         pos_hint: {"center_x": .5, "center_y": .7}
 
-    FitImage:
+    Widget:
         size_hint: None, None
         size: 50, 50
         pos_hint: {"center_x": .5, "center_y": .5}
-        source: "./gif.gif"
 
-#    Widget:
-#        size_hint: None, None
-#        size: 50, 50
-#        pos_hint: {"center_x": .5, "center_y": .5}
-#
-#        canvas:
-#            Color:
-#                rgba: 1,1,1,1
-#
-#            Line:
-#                circle: (self.center[0], self.center[1] - 20, 25, root.xx, root.yy)
-#                width: 3
+        canvas:
+            Color:
+                rgba: 1,1,1,1
+
+            Line:
+                circle: (self.center[0], self.center[1] - 20, 25, root.xx, root.yy)
+                width: 3
 
 
 
