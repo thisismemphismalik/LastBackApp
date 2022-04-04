@@ -47,18 +47,21 @@
         text: "Search"
         size_hint_x: .8
         pos_hint: {"center_x": .5}
-        multiline: True
+#        multiline: True
         adaptive_height: True
         halign: "center"
         on_focus: magnify(self, "Search")
 
     MDBoxLayout:
         adaptive_height: True
-        md_bg_color: 0,0,0,.5
-        opacity: .1
         orientation: "vertical"
+        padding: [10, 0]
 
         MDLabel:
-            text: "id: AZ54DFR627GY1"
+            text: "you can search by id, seller, date, name or category.\ne.g. id: 1234567890"
+            adaptive_height: True
+            halign: "center"
+            theme_text_color: "Custom"
+            text_color: 0,0,0,.3
 
     Widget:
