@@ -11,7 +11,7 @@
             text: "Back Office."
             adaptive_size: True
             pos_hint: {"center_x": .5, "center_y": .88}
-            font_size: 35
+            font_size: dp(35)
             bold: True
 
         MDCard:
@@ -26,28 +26,28 @@
 
                 MDLabel:
                     adaptive_height: True
-                    font_size: 27
+                    font_size: dp(27)
                     text: "email."
                     pos_hint: {"x": .1, "center_y": .75}
 
                 MDTextField:
                     id: email
                     adaptive_height: True
-                    font_size: 20
+                    font_size: dp(20)
                     pos_hint: {"x": .1, "center_y": .65}
                     size_hint_x: .9
                     on_text_validate: password.focused = True
 
                 MDLabel:
                     adaptive_height: True
-                    font_size: 27
+                    font_size: dp(27)
                     text: "mot de passe."
                     pos_hint: {"x": .1, "center_y": .45}
 
                 MDTextField:
                     id: password
                     adaptive_height: True
-                    font_size: 20
+                    font_size: dp(20)
                     pos_hint: {"x": .1, "center_y": .35}
                     size_hint_x: .9
                     password: True

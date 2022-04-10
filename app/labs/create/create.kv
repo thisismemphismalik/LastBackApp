@@ -25,7 +25,7 @@
                 level: 1
                 icon: "close-circle-outline"
                 pos_hint: {"right": .9}
-                user_font_size: 35
+                user_font_size: dp(35)
                 on_release:
                     root.go_back()
 
@@ -36,8 +36,8 @@
     size_hint_x: .8
     pos_hint: {"center_x": .5}
     radius: [25, 25, 0, 0]
-    padding: [0, 10]
-    spacing: 10
+    padding: [dp(0), dp(10)]
+    spacing: dp(10)
     md_bg_color: 1,1,1,1
     orientation: "vertical"
 
@@ -45,7 +45,7 @@
         text: "Create an event"
         adaptive_height: True
         halign: "center"
-        font_size: 20
+        font_size: dp(20)
 
     MDBoxLayout:
         radius: [25, 25, 0, 0]
@@ -65,7 +65,7 @@
                     Clock.schedule_once(partial(root.spinner, "start"), .5)
                     Clock.schedule_once(root.choose, 1.5)
                 icon: "pencil"
-                user_font_size: 20
+                user_font_size: dp(20)
                 pos_hint: {"right": .95, "top": .3}
                 md_bg_color: 1,1,1,.5
 
@@ -108,12 +108,12 @@
 
     MDBoxLayout:
         adaptive_size: True
-        padding: [0, -25, 0, 0]
+        padding: [dp(0), -dp(25), dp(0), dp(0)]
         pos_hint: {"center_x": .5}
 
         MDLabel:
             size_hint_x: None
-            width: 90
+            width: dp(90)
             halign: "center"
             id: date
             pos_hint: {"center_y": .5}
@@ -126,7 +126,7 @@
 
         MDLabel:
             size_hint_x: None
-            width: 50
+            width: dp(50)
             halign: "center"
             id: time
             pos_hint: {"center_y": .5}
@@ -138,11 +138,11 @@
             on_release: root.time()
 
     MDBoxLayout:
-        padding: [0, -5, 0, 0]
+        padding: [dp(0), -dp(5), dp(0), dp(0)]
         adaptive_width: True
         size_hint_y: None
-        height: 10
-        spacing: 25
+        height: dp(10)
+        spacing: dp(25)
         pos_hint: {"center_x": .5}
 
         MDTextButton:
@@ -163,7 +163,7 @@
 
     MDBoxLayout:
         adaptive_size: True
-        padding: [10]
+        padding: [dp(10)]
         md_bg_color: 0,0,0,.1
         pos_hint: {"center_x": .5}
 
@@ -178,8 +178,8 @@
     size_hint_x: .8
     pos_hint: {"center_x": .5}
     radius: [25, 25, 0, 0]
-    padding: [0, 10]
-    spacing: 15
+    padding: [dp(0), dp(10)]
+    spacing: dp(15)
     md_bg_color: 1,1,1,1
     orientation: "vertical"
 
@@ -187,13 +187,13 @@
         id: ticket_id
         text: "id"
         adaptive_height: True
-        font_size: 25
+        font_size: dp(25)
         halign: "center"
         opacity: .7
 
     MDIconButton:
         icon: "plus-circle-outline"
-        user_font_size: 35
+        user_font_size: dp(35)
         pos_hint: {"center_x": .5}
         theme_text_color: "Custom"
         text_color: 0,0,1,.5
@@ -201,7 +201,7 @@
 
     MDFloatLayout:
         size_hint_y: None
-        height: 240
+        height: dp(240)
 #        md_bg_color: 1,0,0,.3
 
         MDBoxLayout:
@@ -212,7 +212,7 @@
 
     MDBoxLayout:
         adaptive_size: True
-        padding: [10]
+        padding: [dp(10)]
         md_bg_color: 0,0,0,.1
         pos_hint: {"center_x": .5}
 
@@ -235,7 +235,7 @@
         radius: [25, 25, 0, 0]
         source: root.image
         size_hint_y: None
-        height: 150
+        height: dp(150)
 
     ScrollView:
         bar_width: 0
@@ -249,7 +249,7 @@
 
             MDBoxLayout:
                 adaptive_height: True
-                padding: [0, 10]
+                padding: [dp(0), dp(10)]
 
                 MDLabel:
                     adaptive_height: True
@@ -264,8 +264,8 @@
 
                 MDFloatLayout:
                     size_hint_y: None
-                    height: 25
-                    padding: [0, 5]
+                    height: dp(25)
+                    padding: [dp(0), dp(5)]
 
                     MDLabel:
                         pos_hint: {"center_x": .5, "center_y": .5}
@@ -278,8 +278,8 @@
 
                 MDFloatLayout:
                     size_hint_y: None
-                    height: 25
-                    padding: [0, 5]
+                    height: dp(25)
+                    padding: [dp(0), dp(5)]
 
                     MDLabel:
                         pos_hint: {"center_x": .5, "center_y": .5}
@@ -294,8 +294,8 @@
 
                 MDFloatLayout:
                     size_hint_y: None
-                    height: 25
-                    padding: [0, 5]
+                    height: dp(25)
+                    padding: [dp(0), dp(5)]
 
                     MDLabel:
                         pos_hint: {"center_x": .5, "center_y": .5}
@@ -308,8 +308,8 @@
 
                 MDFloatLayout:
                     size_hint_y: None
-                    height: 25
-                    padding: [0, 5]
+                    height: dp(25)
+                    padding: [dp(0), dp(5)]
 
                     MDLabel:
                         pos_hint: {"center_x": .5, "center_y": .5}
@@ -322,8 +322,8 @@
 
                 MDBoxLayout:
                     size_hint: None, None
-                    size: 25, 25
-                    padding: [0, 5]
+                    size: dp(25), dp(25)
+                    padding: [dp(0), dp(5)]
 
                     Widget:
                         pos_hint: {"center_x": .5, "center_y": .5}
@@ -332,15 +332,15 @@
                                 rgba: color(root.color)
 
                             RoundedRectangle:
-                                size: 20, 20
-                                radius: [5]
+                                size: dp(20), dp(20)
+                                radius: [dp(5)]
                                 pos: self.center[0] - 10, self.center[1] - 10
 
             MDSeparator:
 
             MDBoxLayout:
                 adaptive_height: True
-                padding: [10]
+                padding: [dp(10)]
 
                 MDLabel:
                     adaptive_height: True
@@ -355,7 +355,7 @@
 
                 MDBoxLayout:
                     adaptive_height: True
-                    padding: [10]
+                    padding: [dp(10)]
 
                     MDLabel:
                         adaptive_height: True
@@ -366,8 +366,8 @@
 
             MDBoxLayout:
                 size_hint_y: None
-                height: 50
-                spacing: 25
+                height: dp(50)
+                spacing: dp(25)
 
                 MDLabel:
                     adaptive_width: True
@@ -383,11 +383,11 @@
 
             MDFloatLayout:
                 size_hint: 1, None
-                height: 75
+                height: dp(75)
 
                 MDBoxLayout:
                     adaptive_size: True
-                    padding: [10]
+                    padding: [dp(10)]
                     md_bg_color: 0,0,0,.1
                     pos_hint: {"center_x": .5, "center_y": .5}
 
@@ -402,23 +402,23 @@
 <Spin>
     size_hint: None, None
     pos_hint: {"center_x": .5, "center_y": .5}
-    xx: 0
-    yy: 260
-    size: 250, 250
+    xx: dp(0)
+    yy: dp(260)
+    size: dp(250), dp(250)
     radius: [50]
     md_bg_color: 0,0,0,.9
 
     MDLabel:
         adaptive_size: True
         text: "action in progress"
-        font_size: 25
+        font_size: dp(25)
         theme_text_color: "Custom"
         text_color: 1,1,1,1
         pos_hint: {"center_x": .5, "center_y": .7}
 
     Widget:
         size_hint: None, None
-        size: 50, 50
+        size: dp(50), dp(50)
         pos_hint: {"center_x": .5, "center_y": .5}
 
         canvas:
@@ -427,16 +427,16 @@
 
             Line:
                 circle: (self.center[0], self.center[1] - 20, 25, root.xx, root.yy)
-                width: 3
+                width: dp(3)
 
 
 
 <Content>
     orientation: "vertical"
-    padding: [0, -20, 0, 0]
-    spacing: -10
+    padding: [dp(0), -dp(20), dp(0), dp(0)]
+    spacing: -dp(10)
     size_hint_y: None
-    height: 200
+    height: dp(200)
 
     MDTextField:
         id: quantity
@@ -468,13 +468,13 @@
 
     MDFloatLayout:
         size_hint_y: None
-        height: 50
+        height: dp(50)
 #        md_bg_color: 1,0,0,.3
 
         MDFlatButton:
             text: "VALIDATE"
             bold: True
-            font_size: 20
+            font_size: dp(20)
             pos_hint: {"center_x": .75, "center_y": .5}
             on_release: root.add_ticket(quantity,type,price,advantage)
 
