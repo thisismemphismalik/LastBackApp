@@ -63,9 +63,9 @@ class Storage:
 
         headers = {"Content-Type": f"image/{file_type}"}
 
-        r = requests.post(url=self.url+cloud_file, data=local_file, headers=headers, verify=certifi.where())
+        r = requests.post(url=self.url + cloud_file, data=local_file, headers=headers, verify=certifi.where())
 
-        return self.url+cloud_file+"?alt=media"
+        return self.url + cloud_file + "?alt=media"
 
 
 class Database:
@@ -79,6 +79,17 @@ class Database:
 
         try:
             requests.patch(url=url, data=data)
+
+        except requests.exceptions.ConnectionError:
+            toast("No connection to the database")
+            Logger.warning(f"No connection to the database")
+
+    def read_event(self, event_id):
+        url = self.url + "events/" + event_id + ".json"
+
+        try:
+            data = requests.get(url=url)
+            return data.json()
 
         except requests.exceptions.ConnectionError:
             toast("No connection to the database")
@@ -99,7 +110,6 @@ class Database:
                 toast("No connection to the database")
                 Logger.warning(f"No connection to the database")
 
-
         # url = self.url + "tags" + ".json"
         # # TODO: arrays don't work
         # data = {x: [event_id] for x in all_tags}
@@ -111,3 +121,36 @@ class Database:
         # except requests.exceptions.ConnectionError:
         #     toast("No connection to the database")
         #     Logger.warning(f"No connection to the database")
+
+    def get_by_date(self, date):
+        url = self.url + "dates/" + date + ".json"
+
+        try:
+            data = requests.get(url=url)
+            return data.json()
+
+        except requests.exceptions.ConnectionError:
+            toast("No connection to the database")
+            Logger.warning(f"No connection to the database")
+
+    def get_by_seller(self, seller):
+        url = self.url + "sellers/" + seller + ".json"
+
+        try:
+            data = requests.get(url=url)
+            return data.json()
+
+        except requests.exceptions.ConnectionError:
+            toast("No connection to the database")
+            Logger.warning(f"No connection to the database")
+
+    def get_by_category(self, category):
+        url = self.url + "dates/" + category + ".json"
+
+        try:
+            data = requests.get(url=url)
+            return data.json()
+
+        except requests.exceptions.ConnectionError:
+            toast("No connection to the database")
+            Logger.warning(f"No connection to the database")

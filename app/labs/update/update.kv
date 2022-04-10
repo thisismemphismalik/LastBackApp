@@ -44,13 +44,14 @@
 #        bold: True
 
     MDTextField:
+        id: search
         text: "Search"
         size_hint_x: .8
         pos_hint: {"center_x": .5}
-#        multiline: True
         adaptive_height: True
         halign: "center"
         on_focus: magnify(self, "Search")
+        on_text_validate: root.search(self)
 
     MDBoxLayout:
         adaptive_height: True
@@ -63,5 +64,8 @@
             halign: "center"
             theme_text_color: "Custom"
             text_color: 0,0,0,.3
+
+    MDBoxLayout:
+        
 
     Widget:
