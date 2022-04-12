@@ -23,15 +23,28 @@ class Search(MDBoxLayout):
         method = field.text.split(":")[0].lower()
         value = field.text.split(":")[~0].upper()
 
+        fire = Fire(key, identifer)
+        db = Database(fire)
+
         # Search
-        if method == "id":
+        if len(field.text.split(":")) < 1:
+            if method == "id":
+                event = db.read_event(value)
+                print(event)
 
-            fire = Fire(key, identifer)
-            db = Database(fire)
+            elif method == "date":
+                events = db.get_by_date(value.replace("/", "-"))
+                print(events)
 
-            event = db.read_event(value)
+            elif method == "seller":
+                events = db.get_by_seller(value)
+                print(events)
 
-            print(event)
+            elif method == "category":
+                events = db.get_by_category(value)
+                print(events)
 
-        elif method == "seller":
-            pass
+        else:
+            events = db.get_by_tags(field.text.split(" "))
+
+            print(events)

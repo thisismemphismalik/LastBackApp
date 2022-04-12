@@ -80,6 +80,21 @@ class Database:
         try:
             requests.patch(url=url, data=data)
 
+            # add to dates
+            date_url = self.url + "dates/" + event["date"].replace("/", "-") + ".json"
+            date_data = json.dumps({event_id: True})
+            requests.patch(url=date_url, data=date_data)
+
+            # add to sellers
+            seller_url = self.url + "sellers/" + event["seller"] + ".json"
+            seller_data = json.dumps({event_id: True})
+            requests.patch(url=seller_url, data=seller_data)
+
+            # add to categories
+            category_url = self.url + "categories/" + event["category"] + ".json"
+            category_data = json.dumps({event_id: True})
+            requests.patch(url=category_url, data=category_data)
+
         except requests.exceptions.ConnectionError:
             toast("No connection to the database")
             Logger.warning(f"No connection to the database")
@@ -109,18 +124,6 @@ class Database:
             except requests.exceptions.ConnectionError:
                 toast("No connection to the database")
                 Logger.warning(f"No connection to the database")
-
-        # url = self.url + "tags" + ".json"
-        # # TODO: arrays don't work
-        # data = {x: [event_id] for x in all_tags}
-        # data = json.dumps(data)
-        #
-        # try:
-        #     requests.patch(url=url, data=data)
-        #
-        # except requests.exceptions.ConnectionError:
-        #     toast("No connection to the database")
-        #     Logger.warning(f"No connection to the database")
 
     def get_by_date(self, date):
         url = self.url + "dates/" + date + ".json"
@@ -154,3 +157,33 @@ class Database:
         except requests.exceptions.ConnectionError:
             toast("No connection to the database")
             Logger.warning(f"No connection to the database")
+
+    def get_by_tags(self, tags):
+        score = dict()
+
+        for i in tags:
+            url = self.url + "tags/" + i + ".json"
+
+            try:
+                data = requests.get(url=url)
+                print(data)
+
+                try:
+                    values = data.json().keys()
+
+                    for j in values:
+                        if j in score.keys():
+                            score[j] += 1
+                        else:
+                            score[j] = 1
+
+                except AttributeError:
+                    print("NOOOOOOOO")
+
+            except requests.exceptions.ConnectionError:
+                toast("No connection to the database")
+                Logger.warning(f"No connection to the database")
+
+        sorted_score = [el[0] for el in sorted(score.items(), key=lambda x: x[1], reverse=True)]
+
+        print(sorted_score)
